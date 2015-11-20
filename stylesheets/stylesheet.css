@@ -7,14 +7,24 @@ body {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 1.5;
-  color: #606c71; }
+  color: #888; }
 
 a {
   color: #0f0f0f;
   text-decoration: none; }
-  a:hover {
-    text-decoration: underline;
-    color: #326de6; }
+a:hover {
+  text-decoration: underline;
+  color: #326de6; }
+
+strong {
+  color: #a0a0a0;
+  font-weight: 500;
+}
+
+.rcp-sep {
+    border-top: 1px solid #f0f0f0;
+    width: 20%;
+}
 
 .btn {
   display: inline-block;
@@ -35,6 +45,46 @@ a {
   text-decoration: none;
   background-color: rgba(50, 109, 230, 0.9);
   border-color: rgba(255, 255, 255, 0.3); }
+
+.menu-item {
+  display: inline-block;
+  cursor: pointer;
+  width: 100px;
+  padding: 0.1rem 0.2rem;
+  margin-bottom: 0rem;
+  color: rgba(50, 109, 230, 1);
+  background-color: rgba(255, 255, 255, 1);
+  border-color: rgba(50, 109, 230, 0.5);
+  border-style: solid;
+  border-width: 0px;
+  border-radius: 0.3rem;
+  transition: color 0.2s, background-color 0.2s, border-color 0.2s; }
+
+.menu-item-sel {
+  display: inline-block;
+  cursor: pointer;
+  width: 100px;
+  padding: 0.1rem 0.2rem;
+  margin-bottom: 0rem;
+  color: rgba(255, 255, 255, 1);
+  background-color: rgba(50, 109, 230, 1);
+  border-color: rgba(255, 255, 255, 1);
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 0.3rem;
+  transition: color 0.2s, background-color 0.2s, border-color 0.2s; }
+
+.menu-item:hover {
+  color: rgba(255, 255, 255, 1);
+  text-decoration: none;
+  background-color: rgba(50, 109, 230, 0.9);
+  border-color: rgba(255, 255, 255, 1); }
+
+.menu-item a {
+  color: #326DE6;
+  text-decoration: none; }
+.menu-item a:hover {
+  color: #FFF; }
 
 @media screen and (min-width: 64em) {
   .btn {
@@ -92,7 +142,7 @@ a {
 
 .project-tagline {
   margin-bottom: 2rem;
-  font-weight: 100;
+  font-weight: 300;
   opacity: 0.4; }
 
 @media screen and (min-width: 64em) {
