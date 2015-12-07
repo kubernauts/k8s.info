@@ -30,42 +30,78 @@
     </div>
     </section>
     <section class="main-content">
-      <h2><a id="pl" class="anchor" href="#pl" aria-hidden="true"><span class="octicon octicon-link"></span></a>Physical Layout</h2>
+       <div id="cs-menu" class="anchor" href="#cs-menu" aria-hidden="true" style="border-bottom: 1px solid #f0f0f0; text-align: center; padding-bottom: 20px">
+           <a href="#pl" style="margin-right: 50px">Physical Layout &darr;</a>
+           <a href="#ao" style="margin-right: 50px">Abstractions Overview &darr;</a> <span></span>
+           <a href="#ad">Abstractions Details &darr;</a>
+       </div>
+      <h2><a id="pl" class="anchor" href="#pl" aria-hidden="true"><span class="octicon octicon-link"></span></a>Physical Layout <a href="#cs-menu" style="font-size: 60%; ">&uarr;</a></h2>
       <div>
-          <div style="float:left; width: 70%; margin: 0px 10px; text-align: right;"><img src="cheatsheet/k8s-cheatsheet-physical-layout.png" width="1000px" alt="Kubernetes Physical Layout"></div>
+          <div style="float:left; width: 70%; height: 500px; margin: 0px;"><img src="cheatsheet/k8s-cheatsheet-physical-layout.png" width="800px" alt="Kubernetes Physical Layout"></div>
           <div style="font-size: 80%">
               Get cluster info:
               <pre><code>kubectl cluster-info</code></pre>
+              <div class="cs-sep"></div>
               Get configuration info:
               <pre><code>kubectl config view</code></pre>
-              List nodes:
-              <pre><code>kubectl get nodes</code></pre>
-              Get info about <code>node123</code>:
+              <div class="cs-sep"></div>
+              Watch nodes continuously:
+              <pre><code>kubectl get nodes -w</code></pre>
+              <div class="cs-sep"></div>
+              Get info about 'node123':
               <pre><code>kubectl describe node123</code></pre>
           </div>
           <div style="clear:both; margin-bottom: 20px"></div>
       </div>
-      <h2><a id="ao" class="anchor" href="#ao" aria-hidden="true"><span class="octicon octicon-link"></span></a>Kubernetes Abstractions Overview</h2>
-          <div style="float:left; width: 70%; margin: 0px 10px; text-align: right;"><img src="cheatsheet/k8s-cheatsheet-abstractions-overview.png" width="1000px" alt="Kubernetes Abstractions Overview"></div>
+      <h2><a id="ao" class="anchor" href="#ao" aria-hidden="true"><span class="octicon octicon-link"></span></a>Abstractions Overview <a href="#cs-menu" style="font-size: 60%; ">&uarr;</a></h2>
+          <div style="float:left; width: 70%; height: 600px; margin: 0px;"><img src="cheatsheet/k8s-cheatsheet-abstractions-overview.png" width="800px" alt="Kubernetes Abstractions Overview"></div>
           <div style="font-size: 80%">
               List pods:
               <pre><code>kubectl get pods</code></pre>
+              <div class="cs-sep"></div>
+              Get info about pod 'nginx-hl2nb':
+              <pre><code>kubectl describe pod nginx-hl2nb</code></pre>
+              <div class="cs-sep"></div>
               List replication controllers:
               <pre><code>kubectl get rc</code></pre>
+              <div class="cs-sep"></div>
               List services:
               <pre><code>kubectl get svc</code></pre>
-              List endpoints:
-              <pre><code>kubectl get ep</code></pre>
+              <div class="cs-sep"></div>
+              Check status of components such as the scheduler,
+              etcd, and controller manager:
+              <pre><code>kubectl get cs</code></pre>
+              <div class="cs-sep"></div>
+              The Kubelet logs are per default at:
+              <pre><code>/var/log/kubelet.log</code></pre>
           </div>
           <div style="clear:both; margin-bottom: 20px"></div>
       </div>
-      <h2><a id="ad" class="anchor" href="#ad" aria-hidden="true"><span class="octicon octicon-link"></span></a>Kubernetes Abstractions Details</h2>
-          <div style="float:left; width: 70%; margin: 0px 10px; text-align: right;"><img src="cheatsheet/k8s-cheatsheet-abstractions-details.png" width="1000px" alt="Kubernetes Abstractions Details"></div>
+      <h2><a id="ad" class="anchor" href="#ad" aria-hidden="true"><span class="octicon octicon-link"></span></a>Abstractions Details <a href="#cs-menu" style="font-size: 60%; ">&uarr;</a></h2>
+          <div style="  margin: 0px 10px;"><img src="cheatsheet/k8s-cheatsheet-abstractions-details.png" width="800px" alt="Kubernetes Abstractions Details"></div>
           <div style="font-size: 80%">
-              List namespaces:
-              <pre><code>kubectl get ns</code></pre>
-              List quotas:
-              <pre><code>kubectl get quota</code></pre>
+              <p>The interactions are as follows:</p>
+              <ol>
+                  <li>
+                      A replication controller (RC) looks after one or more pods. The RC keeps a number of pods (so called replicas) up and running.
+                      <ul>
+                        <li>To launch a pod and implicitly create an RC: <code>kubectl run ubuntu --image=ubuntu</code></li>
+                        <li>To list all RCs in a certain namespace:<code>kubectl get rc --namespace="kube-system"</code></li>
+                      </ul>
+                  </li>
+                  <li>
+                      A service represents a logical group of pods (backed by an RC). It provides a stable interface to interact with the pods. To create a service
+                      from a YAML file, use: <code>kubectl create -f my-service.yaml</code>. The service selects the targeted pods it routes traffic to via labels, for example, to list all pods labelled with 'app=webserver' use: <br> <code>kubectl get pods -l="app=webserver"</code>.
+                  </li>
+                  <li>From either the end-user perspective or other services in a cluster, one interacts with a service. To expose a RC named 'nginx' that has a pod serving on port 8000 as a service on port 80, use <code>kubectl expose rc nginx --port=80 --target-port=8000</code>. Also to list the endpoints, use: <code>kubectl get ep</code></li>
+                  <li>On each node a local <a href="http://kubernetes.io/v1.1/docs/admin/kube-proxy.html">proxy</a> runs that provides for basic service discovery and load balancing.</li>
+                  <li>A container in a pod may use one or more <a href="http://kubernetes.io/v1.1/docs/user-guide/secrets.html">secrets</a> to handle sensitive information such as passwords or API credentials. To list all secrets, use: <code>kubectl get secrets</code></li>
+                  <li>A <a href="http://kubernetes.io/v1.1/docs/user-guide/horizontal-pod-autoscaling/README.html">autoscaler</a> is available on a per-RC basis. It
+                      scales the replicas depending on the average CPU utilization of the RC's pods.</li>
+                  <li>For batch workloads, you can use <a href="http://kubernetes.io/v1.1/docs/user-guide/jobs.html">jobs</a>. To view completed pods of a job, use: <code>kubectl get pods --show-all</code></li> 
+                  <li>Changes to resources such as pods, RCs, services, etc. are available through events: <code>kubectl get events</code></li>
+                  <li>To separate users, groups or applications use <a href="http://kubernetes.io/v1.1/docs/user-guide/namespaces.html">namespaces</a>.To list all namespaces, use: <code>kubectl get ns</code> and to see the resource quotas of a namespace use <code>kubectl get quota</code></li>
+              </ol>
           </div>
           <div style="clear:both; margin-bottom: 20px"></div>
       </div>
