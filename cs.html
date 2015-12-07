@@ -37,8 +37,11 @@
        </div>
       <h2><a id="pl" class="anchor" href="#pl" aria-hidden="true"><span class="octicon octicon-link"></span></a>Physical Layout <a href="#cs-menu" style="font-size: 60%; ">&uarr;</a></h2>
       <div>
-          <div style="float:left; width: 70%; height: 500px; margin: 0px;"><img src="cheatsheet/k8s-cheatsheet-physical-layout.png" width="800px" alt="Kubernetes Physical Layout"></div>
+          <div style="float:left; width: 70%; height: 400px; margin: 0px;"><img src="cheatsheet/k8s-cheatsheet-physical-layout.png" width="800px" alt="Kubernetes Physical Layout"></div>
           <div style="font-size: 80%">
+              Query the server/client version used:
+              <pre><code>kubectl version</code></pre>
+              <div class="cs-sep"></div>
               Get cluster info:
               <pre><code>kubectl cluster-info</code></pre>
               <div class="cs-sep"></div>
@@ -50,11 +53,20 @@
               <div class="cs-sep"></div>
               Get info about 'node123':
               <pre><code>kubectl describe node123</code></pre>
+              <p>
+                  From a physical perspective, a Kubernetes cluster consists of:
+              </p>
+                  <ol>
+                      <li>A <strong>master</strong> (with several independent sub-components, details below) that coordinates the work.</li>
+                      <li>A <strong>distributed key-value store</strong>, currently <a href="http://kubernetes.io/v1.1/docs/admin/etcd.html">etcd</a>, for maintaining the resource state in a persistent and reliable manner, throughout the cluster.</li>
+                      <li>A number of <strong>nodes</strong> that carry out the work.</li>
+                      <li>A command line tool called <code>kubectl</code> allowing to query and manipulate the cluster state; this is a fancy way of saying: running containers, creating services and administrating the cluster (loggin, monitoring, debugging).</li>
+                  </ol>
           </div>
           <div style="clear:both; margin-bottom: 20px"></div>
       </div>
       <h2><a id="ao" class="anchor" href="#ao" aria-hidden="true"><span class="octicon octicon-link"></span></a>Abstractions Overview <a href="#cs-menu" style="font-size: 60%; ">&uarr;</a></h2>
-          <div style="float:left; width: 70%; height: 600px; margin: 0px;"><img src="cheatsheet/k8s-cheatsheet-abstractions-overview.png" width="800px" alt="Kubernetes Abstractions Overview"></div>
+          <div style="float:left; width: 70%; height: 850px; margin: 0px;"><img src="cheatsheet/k8s-cheatsheet-abstractions-overview.png" width="800px" alt="Kubernetes Abstractions Overview"></div>
           <div style="font-size: 80%">
               List pods:
               <pre><code>kubectl get pods</code></pre>
@@ -65,15 +77,29 @@
               List replication controllers:
               <pre><code>kubectl get rc</code></pre>
               <div class="cs-sep"></div>
+              Get info about replication controller 'nginx':
+              <pre><code>kubectl describe rc nginx</code></pre>
+              <div class="cs-sep"></div>
+              Expose replication controller 'nginx' as a service on port 80:
+              <pre><code>kubectl expose rc nginx --port=80 --target-port=8000</code></pre>
+              <div class="cs-sep"></div>
               List services:
               <pre><code>kubectl get svc</code></pre>
               <div class="cs-sep"></div>
-              Check status of components such as the scheduler,
-              etcd, and controller manager:
-              <pre><code>kubectl get cs</code></pre>
+              Get info about service 'nginx':
+              <pre><code>kubectl describe svc nginx</code></pre>
               <div class="cs-sep"></div>
-              The Kubelet logs are per default at:
-              <pre><code>/var/log/kubelet.log</code></pre>
+              Destroy/remove a resource :
+              <pre><code>kubectl delete pod nginx-hl2nb</code></pre>
+              <pre><code>kubectl delete rc nginx</code></pre>
+              <pre><code>kubectl delete svc nginx</code></pre>
+              <p>In order to admin your cluster as well as to deploy and debug apps, you can also use the following commands:</p>
+              <ul>
+                  <li>To debug a container, enter it so: <code>kubectl exec nginx-hl2nb</code> (note: in this case the first container will be used, otherwise use <code>-c $NAME_OF_CONTAINER</code> to specify which container to enter)</li>
+                  <li>To see the logs of a pod in a rolling fashion use <code>kubectl logs -f nginx-hl2nb</code> (note: same as with exec, you can specify the container if you wish to)</li>
+                  <li>The Kubelet logs are per default at: <code>/var/log/kubelet.log</code></li>
+                  <li>To check the status of components such as the scheduler, etcd, and controller manager use: <code>kubectl get cs</code></li>
+              </ul>
           </div>
           <div style="clear:both; margin-bottom: 20px"></div>
       </div>
@@ -106,7 +132,7 @@
           <div style="clear:both; margin-bottom: 20px"></div>
       </div>
       <footer class="site-footer">
-       <span class="site-footer-owner">Last update: 2015-12-06 by <a href="https://github.com/mhausenblas">mhausenblas</a>.</span>
+       <span class="site-footer-owner">Last update: 2015-12-07 by <a href="https://github.com/mhausenblas">mhausenblas</a>.</span>
        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
     </section>
