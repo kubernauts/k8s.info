@@ -127,7 +127,7 @@
                       scales the replicas depending on the average CPU utilization of the RC's pods.</li>
                   <li>For batch workloads, you can use <a href="http://kubernetes.io/v1.1/docs/user-guide/jobs.html">jobs</a>. To view completed pods of a job, use: <code>kubectl get pods --show-all</code></li> 
                   <li>Changes to resources such as pods, RCs, services, etc. are available through events: <code>kubectl get events</code></li>
-                  <li>To separate users, groups or applications use <a href="http://kubernetes.io/v1.1/docs/user-guide/namespaces.html">namespaces</a>.To list all namespaces, use: <code>kubectl get ns</code> and to see the resource quotas of a namespace use <code>kubectl get quota</code></li>
+                  <li>To separate users, groups or applications use <a href="http://kubernetes.io/v1.1/docs/user-guide/namespaces.html">namespaces</a>.To list all namespaces, use: <code>kubectl get ns</code> and to see the <a href="http://kubernetes.io/v1.1/docs/admin/resourcequota/">resource quotas</a> of a namespace use <code>kubectl get quota</code>. When a pod doesn't specify its resource constraints such as CPU shares or memory requested it effectively can consume unbounded resources. You really want to specify default <a href="http://kubernetes.io/v1.1/docs/admin/limitrange/README.html">limits</a> along with the quotas. Note: while quotas work on the namespace-level for, say, entire groups of users or projects, the limits work on a per-pod level.</li>
               </ol>
           </div>
           <div style="clear:both; margin-bottom: 20px"></div>
