@@ -63,7 +63,7 @@
                       <li>A command line tool called <code>kubectl</code> allowing to query and manipulate the cluster state; this is a fancy way of saying: running containers, creating services and administrating the cluster (logging, monitoring, debugging).</li>
                   </ol>
           </div>
-          <div style="clear:both; margin-bottom: 20px"></div>
+          <div class="cs-sec-sep"></div>
       </div>
       <h2><a id="ao" class="anchor" href="#ao" aria-hidden="true"><span class="octicon octicon-link"></span></a>Abstractions Overview <a href="#cs-menu" style="font-size: 60%; ">&uarr;</a></h2>
           <div style="float:left; width: 70%; height: 850px; margin: 0px;"><img src="cheatsheet/k8s-cheatsheet-abstractions-overview.png" width="800px" alt="Kubernetes Abstractions Overview"></div>
@@ -93,6 +93,10 @@
               <pre><code>kubectl delete pod nginx-hl2nb</code></pre>
               <pre><code>kubectl delete rc nginx</code></pre>
               <pre><code>kubectl delete svc nginx</code></pre>
+              <h3>Organize your resources</h3>
+              <p>The primary organization mechanism in Kubernetes are so called <a href="http://kubernetes.io/v1.1/docs/user-guide/labels.html">labels</a>: these key/value pairs allow you to tag any sort of resource such as a pod or a RC. Both the key and the value are transparent to Kubernetes, which is an elaborate way to say: Kubernetes doesn't know and doesn't care about it; labels only have a meaning to you. Kubernetes, however, will use the labels to, for example, select pods that belong to a service, select pods that a certain RC is supposed to look after, for rolling upgrades and to <a href="https://gist.github.com/mhausenblas/b74742ad10f756e680c5">debug containers online</a>.
+              </p>
+              <h3>Deploy and troubleshoot</h3>
               <p>In order to admin your cluster as well as to deploy and debug apps, you can also use the following commands:</p>
               <ul>
                   <li>To debug a container, enter it so: <code>kubectl exec nginx-hl2nb /bin/sh</code> (note: in this case the first container will be used, otherwise use <code>-c $NAME_OF_CONTAINER</code> to specify which container to enter)</li>
@@ -101,7 +105,7 @@
                   <li>To check the status of components such as the scheduler, etcd, and controller manager use: <code>kubectl get cs</code></li>
               </ul>
           </div>
-          <div style="clear:both; margin-bottom: 20px"></div>
+          <div class="cs-sec-sep"></div>
       </div>
       <h2><a id="ad" class="anchor" href="#ad" aria-hidden="true"><span class="octicon octicon-link"></span></a>Abstractions Details <a href="#cs-menu" style="font-size: 60%; ">&uarr;</a></h2>
           <div style="  margin: 0px 10px;"><img src="cheatsheet/k8s-cheatsheet-abstractions-details.png" width="800px" alt="Kubernetes Abstractions Details"></div>
@@ -112,8 +116,10 @@
                       A replication controller (RC) looks after one or more pods. The RC keeps a number of pods (so called replicas) up and running.
                       <ul>
                         <li>To launch a pod and implicitly create a RC: <code>kubectl run ubuntu --image=ubuntu</code></li>
-                        <li>To create a RC from a manifest <code>kubectl create -f nginx-rc.yaml</code>; see also the YAML formatted <a href="cheatsheet/nginx-rc.yaml">RC manifest file</a> itself</li>
+                        <li>To create a RC from a manifest, use: <code>kubectl create -f nginx-rc.yaml</code>. See the YAML formatted <a href="cheatsheet/nginx-rc.yaml">RC manifest file</a> itself for the actual definition.</li>
                         <li>To list all RCs in a certain namespace:<code>kubectl get rc --namespace="kube-system"</code></li>
+                        <li>Containers in a pod may use ephemeral local disk space but for sustainable, persistent scenarios as well as sharing data between containers in a pod you can use <a href="http://kubernetes.io/v1.1/docs/user-guide/volumes.html">volumes</a>.</li>
+                        <li>Implement <a href="http://kubernetes.io/v1.1/docs/user-guide/production-pods.html#liveness-and-readiness-probes-aka-health-checks">health checks</a> via <code>readinessProbe</code> and <code>livenessProbe</code> fields on the pod-level.</li>
                       </ul>
                   </li>
                   <li>

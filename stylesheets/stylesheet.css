@@ -30,6 +30,14 @@ strong {
     margin-bottom: 20px;
 }
 
+.cs-sec-sep {
+    clear:both;
+    margin: 5px 0 30px 0;
+    padding-bottom: 50px;
+    border-bottom: 1px solid rgba(50,109,230,0.1);
+    width: 40%
+}
+
 .btn {
   display: inline-block;
   cursor: pointer;
