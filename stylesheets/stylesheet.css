@@ -26,6 +26,11 @@ strong {
     width: 20%;
 }
 
+.cs-list li {
+    margin: 10px 0;
+    width: 90%;
+}
+
 .cs-sep {
     margin-bottom: 20px;
 }
