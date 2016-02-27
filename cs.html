@@ -1,0 +1,118 @@
+---
+layout: default
+title: Kubernetes Community Resources
+---
+
+    <section class="main-content">
+       <div id="cs-menu" class="anchor" href="#cs-menu" aria-hidden="true" style="border-bottom: 1px solid #f0f0f0; text-align: center; padding-bottom: 20px">
+           <a href="#pl" style="margin-right: 50px">Physical Layout &darr;</a>
+           <a href="#ao" style="margin-right: 50px">Abstractions Overview &darr;</a> <span></span>
+           <a href="#ad">Abstractions Details &darr;</a>
+       </div>
+      <h2><a id="pl" class="anchor" href="#pl" aria-hidden="true"><span class="octicon octicon-link"></span></a>Physical Layout <a href="#cs-menu" style="font-size: 60%; ">&uarr;</a></h2>
+      <div>
+          <div style="float:left; width: 70%; height: 400px; margin: 0px;"><img src="/resources/cheatsheet/k8s-cheatsheet-physical-layout.png" width="800px" alt="Kubernetes Physical Layout"></div>
+          <div style="font-size: 80%">
+              Query the server/client version used:
+              <pre><code>kubectl version</code></pre>
+              <div class="cs-sep"></div>
+              Get cluster info:
+              <pre><code>kubectl cluster-info</code></pre>
+              <div class="cs-sep"></div>
+              Get configuration info:
+              <pre><code>kubectl config view</code></pre>
+              <div class="cs-sep"></div>
+              Watch nodes continuously:
+              <pre><code>kubectl get nodes -w</code></pre>
+              <div class="cs-sep"></div>
+              Get info about 'node123':
+              <pre><code>kubectl describe node123</code></pre>
+              <p>
+                  From a physical perspective, a Kubernetes cluster consists of:
+              </p>
+                  <ol class="cs-list">
+                      <li>A <strong>master</strong> (with several independent sub-components, details below) that coordinates the work.</li>
+                      <li>A <strong>distributed key-value store</strong>, currently <a href="http://kubernetes.io/v1.1/docs/admin/etcd.html">etcd</a>, for maintaining the resource state in a persistent and reliable manner, throughout the cluster.</li>
+                      <li>A number of <strong>nodes</strong> that carry out the work.</li>
+                      <li>A command line tool called <code>kubectl</code> allowing to query and manipulate the cluster state; this is a fancy way of saying: running containers, creating services and administrating the cluster (logging, monitoring, debugging).</li>
+                  </ol>
+          </div>
+          <div class="cs-sec-sep"></div>
+      </div>
+
+      <h2><a id="ao" class="anchor" href="#ao" aria-hidden="true"><span class="octicon octicon-link"></span></a>Abstractions Overview <a href="#cs-menu" style="font-size: 60%; ">&uarr;</a></h2>
+          <div style="float:left; width: 70%; height: 850px; margin: 0px;"><img src="/resources/cheatsheet/k8s-cheatsheet-abstractions-overview.png" width="800px" alt="Kubernetes Abstractions Overview"></div>
+          <div style="font-size: 80%">
+              List pods:
+              <pre><code>kubectl get pods</code></pre>
+              <div class="cs-sep"></div>
+              Get info about pod 'nginx-hl2nb':
+              <pre><code>kubectl describe pod nginx-hl2nb</code></pre>
+              <div class="cs-sep"></div>
+              List replication controllers:
+              <pre><code>kubectl get rc</code></pre>
+              <div class="cs-sep"></div>
+              Get info about replication controller 'nginx':
+              <pre><code>kubectl describe rc nginx</code></pre>
+              <div class="cs-sep"></div>
+              Expose replication controller 'nginx' as a service on port 80:
+              <pre><code>kubectl expose rc nginx --port=80 --target-port=8000</code></pre>
+              <div class="cs-sep"></div>
+              List services:
+              <pre><code>kubectl get svc</code></pre>
+              <div class="cs-sep"></div>
+              Get info about service 'nginx':
+              <pre><code>kubectl describe svc nginx</code></pre>
+              <div class="cs-sep"></div>
+              Destroy/remove a resource :
+              <pre><code>kubectl delete pod nginx-hl2nb</code></pre>
+              <pre><code>kubectl delete rc nginx</code></pre>
+              <pre><code>kubectl delete svc nginx</code></pre>
+              <h3>Organize your resources</h3>
+              <p>The primary organization mechanism in Kubernetes are so called <a href="http://kubernetes.io/v1.1/docs/user-guide/labels.html">labels</a>: these key/value pairs allow you to tag any sort of resource such as a pod or a RC. Both the key and the value are transparent to Kubernetes, which is an elaborate way to say: Kubernetes doesn't know and doesn't care about it; labels only have a meaning to you. Kubernetes, however, will use the labels to, for example, select pods that belong to a service, select pods that a certain RC is supposed to look after, for rolling upgrades and to <a href="https://gist.github.com/mhausenblas/b74742ad10f756e680c5">debug containers online</a>.
+              </p>
+              <h3>Troubleshooting</h3>
+              <p>In order to <a href="http://kubernetes.io/v1.1/docs/admin/cluster-troubleshooting.html">troubleshoot</a> the cluster, you may wish to use the following commands:</p>
+              <ul class="cs-list">
+                  <li>To debug a container, enter it so: <code>kubectl exec nginx-hl2nb /bin/sh</code> (note: in this case the first container will be used, otherwise use <code>-c $NAME_OF_CONTAINER</code> to specify which container to enter)</li>
+                  <li>To see the logs of a pod in a rolling fashion use <code>kubectl logs -f nginx-hl2nb</code> (note: same as with exec, you can specify the container if you wish to)</li>
+                  <li>The Kubelet logs are per default at: <code>/var/log/kubelet.log</code></li>
+                  <li>To check the status of components such as the scheduler, etcd, and controller manager use: <code>kubectl get cs</code></li>
+              </ul>
+          </div>
+          <div class="cs-sec-sep"></div>
+
+
+      <h2><a id="ad" class="anchor" href="#ad" aria-hidden="true"><span class="octicon octicon-link"></span></a>Abstractions Details <a href="#cs-menu" style="font-size: 60%; ">&uarr;</a></h2>
+          <div style="  margin: 0px 10px;"><img src="/resources/cheatsheet/k8s-cheatsheet-abstractions-details.png" width="800px" alt="Kubernetes Abstractions Details"></div>
+          <div style="font-size: 80%">
+              <p>The interactions are as follows:</p>
+              <ol class="cs-list">
+                  <li>
+                      A replication controller (RC) looks after one or more pods. The RC keeps a number of pods (so called replicas) up and running.
+                      <ul>
+                        <li>To launch a pod and implicitly create a RC: <code>kubectl run ubuntu --image=ubuntu</code></li>
+                        <li>To create a RC from a manifest, use: <code>kubectl create -f nginx-rc.yaml</code>. See the YAML formatted <a href="cheatsheet/nginx-rc.yaml">RC manifest file</a> itself for the actual definition.</li>
+                        <li>To list all RCs in a certain namespace:<code>kubectl get rc --namespace="kube-system"</code></li>
+                        <li>To change the number of pods in a RC, <a href="http://kubernetes.io/v1.1/docs/user-guide/kubectl/kubectl_scale.html">scale</a> it like so: <code>kubectl scale --replicas=2 rc nginx</code></li>
+                        <li>Containers in a pod may use ephemeral local disk space but for sustainable, persistent scenarios as well as sharing data between containers in a pod you can use <a href="http://kubernetes.io/v1.1/docs/user-guide/volumes.html">volumes</a>.</li>
+                        <li>Implement <a href="http://kubernetes.io/v1.1/docs/user-guide/production-pods.html#liveness-and-readiness-probes-aka-health-checks">health checks</a> via <code>readinessProbe</code> and <code>livenessProbe</code> fields on the pod-level.</li>
+                      </ul>
+                  </li>
+                  <li>
+                      A service represents a logical group of pods (backed by a RC). It provides a stable interface to interact with the pods. To create a service
+                      from a YAML file, use: <code>kubectl create -f my-service.yaml</code>. The service selects the targeted pods it routes traffic to via labels, for example, to list all pods labelled with 'app=webserver' use: <br> <code>kubectl get pods -l="app=webserver"</code>.
+                  </li>
+                  <li>From either the end-user perspective or other services in a cluster, one interacts with a service. To expose a RC named 'nginx' that has a pod serving on port 8000 as a service on port 80, use <code>kubectl expose rc nginx --port=80 --target-port=8000</code>. Also to list the endpoints, use: <code>kubectl get ep</code></li>
+                  <li>On each node a local <a href="http://kubernetes.io/v1.1/docs/admin/kube-proxy.html">proxy</a> runs that provides for basic service discovery and load balancing.</li>
+                  <li>A container in a pod may use one or more <a href="http://kubernetes.io/v1.1/docs/user-guide/secrets.html">secrets</a> to handle sensitive information such as passwords or API credentials. To list all secrets, use: <code>kubectl get secrets</code></li>
+                  <li>A <a href="http://kubernetes.io/v1.1/docs/user-guide/horizontal-pod-autoscaling/README.html">autoscaler</a> is available on a per-RC basis. It
+                      scales the replicas depending on the average CPU utilization of the RC's pods.</li>
+                  <li>For batch workloads, you can use <a href="http://kubernetes.io/v1.1/docs/user-guide/jobs.html">jobs</a>. To view completed pods of a job, use: <code>kubectl get pods --show-all</code></li>
+                  <li>Changes to resources such as pods, RCs, services, etc. are available through events: <code>kubectl get events</code></li>
+                  <li>To separate users, groups or applications use <a href="http://kubernetes.io/v1.1/docs/user-guide/namespaces.html">namespaces</a>.To list all namespaces, use: <code>kubectl get ns</code> and to see the <a href="http://kubernetes.io/v1.1/docs/admin/resourcequota/">resource quotas</a> of a namespace use <code>kubectl get quota</code>. When a pod doesn't specify its resource constraints such as CPU shares or memory requested it effectively can consume unbounded resources. You really want to specify default <a href="http://kubernetes.io/v1.1/docs/admin/limitrange/README.html">limits</a> along with the quotas. Note: while quotas work on the namespace-level for, say, entire groups of users or projects, the limits work on a per-pod level.</li>
+              </ol>
+          </div>
+          <div style="clear:both; margin-bottom: 20px"></div>
+      </div>
+    </section>
