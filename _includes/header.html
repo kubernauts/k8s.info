@@ -11,10 +11,24 @@
   <h1 class="project-name">Kubernetes Community Resources</h1>
   <h2 class="project-tagline">Container management from appops for appops.</h2>
 <div class="toplevel-menu">
-    <!-- <span class="menu-item-sel">home</span> -->
+    {% if page.hmenu == 'index'  %}
+    <span class="menu-item-sel">home</span>
+    {% else %}
     <span class="menu-item"><a href="index.html">home</a></span>
+    {% endif %}
+
+    {% if page.hmenu == 'recipes'  %}
+    <span class="menu-item-sel">recipes</span>
+    {% else %}
     <span class="menu-item"><a href="recipes.html">recipes</a></span>
+    {% endif %}
+
+    {% if page.hmenu == 'cs'  %}
+    <span class="menu-item-sel">cheat sheet</span>
+    {% else %}
     <span class="menu-item"><a href="cs.html">cheat sheet</a></span>
+    {% endif %}
+
     <span class="menu-item"><a href="https://github.com/kubernauts/k8s.info" target="_new">contribute</a></span>
 </div>
 </section>
