@@ -1,34 +1,9 @@
-<!DOCTYPE html>
-<html lang="en-us">
-  <head>
-    <meta charset="UTF-8">
-    <title>Kubernetes Cheat Sheet</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
-    <link rel="icon" href="k8s-logo.png" type="image/x-icon">
-  </head>
-  <body>
-    <section class="page-header">
-      <div style="font-weight: 200;">
-          <a style="color: #fff" href="http://kubernetes.io/v1.1/" target="_new">Docs</a> | 
-          <a style="color: #fff" href="http://stackoverflow.com/questions/tagged/kubernetes" target="_new">StackOverflow</a> | 
-          <a style="color: #fff" href="http://slack.k8s.io/" target="_new">Slack</a> | 
-          <a style="color: #fff" href="http://kubernetes.slackarchive.io/" target="_new">Slack Archive</a> | 
-          <a style="color: #fff" href="https://twitter.com/kubernetesio" target="_new">Twitter</a> | 
-          <a style="color: #fff" href="https://groups.google.com/forum/#!forum/google-containers" target="_new">Mailing List</a>
-      </div>
-      <h1 class="project-name">Kubernetes Community Resources</h1>
-      <h2 class="project-tagline">Container management from appops for appops.</h2>
-    <div class="toplevel-menu">
-        <span class="menu-item"><a href="./">home</a></span>
-        <span class="menu-item"><a href="recipes.html">recipes</a></span>
-        <span class="menu-item-sel">cheat sheet</span>
-        <span class="menu-item"><a href="https://github.com/kubernauts/k8s.info" target="_new">contribute</a></span>
-    </div>
-    </section>
+---
+layout: default
+title: Kubernetes Community Resources
+hmenu: cs
+---
+
     <section class="main-content">
        <div id="cs-menu" class="anchor" href="#cs-menu" aria-hidden="true" style="border-bottom: 1px solid #f0f0f0; text-align: center; padding-bottom: 20px">
            <a href="#pl" style="margin-right: 50px">Physical Layout &darr;</a>
@@ -37,7 +12,7 @@
        </div>
       <h2><a id="pl" class="anchor" href="#pl" aria-hidden="true"><span class="octicon octicon-link"></span></a>Physical Layout <a href="#cs-menu" style="font-size: 60%; ">&uarr;</a></h2>
       <div>
-          <div style="float:left; width: 70%; height: 400px; margin: 0px;"><img src="cheatsheet/k8s-cheatsheet-physical-layout.png" width="800px" alt="Kubernetes Physical Layout"></div>
+          <div style="float:left; width: 70%; height: 400px; margin: 0px;"><img src="/resources/cheatsheet/k8s-cheatsheet-physical-layout.png" width="800px" alt="Kubernetes Physical Layout"></div>
           <div style="font-size: 80%">
               Query the server/client version used:
               <pre><code>kubectl version</code></pre>
@@ -65,8 +40,9 @@
           </div>
           <div class="cs-sec-sep"></div>
       </div>
+
       <h2><a id="ao" class="anchor" href="#ao" aria-hidden="true"><span class="octicon octicon-link"></span></a>Abstractions Overview <a href="#cs-menu" style="font-size: 60%; ">&uarr;</a></h2>
-          <div style="float:left; width: 70%; height: 850px; margin: 0px;"><img src="cheatsheet/k8s-cheatsheet-abstractions-overview.png" width="800px" alt="Kubernetes Abstractions Overview"></div>
+          <div style="float:left; width: 70%; height: 850px; margin: 0px;"><img src="/resources/cheatsheet/k8s-cheatsheet-abstractions-overview.png" width="800px" alt="Kubernetes Abstractions Overview"></div>
           <div style="font-size: 80%">
               List pods:
               <pre><code>kubectl get pods</code></pre>
@@ -106,9 +82,10 @@
               </ul>
           </div>
           <div class="cs-sec-sep"></div>
-      </div>
+
+
       <h2><a id="ad" class="anchor" href="#ad" aria-hidden="true"><span class="octicon octicon-link"></span></a>Abstractions Details <a href="#cs-menu" style="font-size: 60%; ">&uarr;</a></h2>
-          <div style="  margin: 0px 10px;"><img src="cheatsheet/k8s-cheatsheet-abstractions-details.png" width="800px" alt="Kubernetes Abstractions Details"></div>
+          <div style="  margin: 0px 10px;"><img src="/resources/cheatsheet/k8s-cheatsheet-abstractions-details.png" width="800px" alt="Kubernetes Abstractions Details"></div>
           <div style="font-size: 80%">
               <p>The interactions are as follows:</p>
               <ol class="cs-list">
@@ -132,17 +109,11 @@
                   <li>A container in a pod may use one or more <a href="http://kubernetes.io/v1.1/docs/user-guide/secrets.html">secrets</a> to handle sensitive information such as passwords or API credentials. To list all secrets, use: <code>kubectl get secrets</code></li>
                   <li>A <a href="http://kubernetes.io/v1.1/docs/user-guide/horizontal-pod-autoscaling/README.html">autoscaler</a> is available on a per-RC basis. It
                       scales the replicas depending on the average CPU utilization of the RC's pods.</li>
-                  <li>For batch workloads, you can use <a href="http://kubernetes.io/v1.1/docs/user-guide/jobs.html">jobs</a>. To view completed pods of a job, use: <code>kubectl get pods --show-all</code></li> 
+                  <li>For batch workloads, you can use <a href="http://kubernetes.io/v1.1/docs/user-guide/jobs.html">jobs</a>. To view completed pods of a job, use: <code>kubectl get pods --show-all</code></li>
                   <li>Changes to resources such as pods, RCs, services, etc. are available through events: <code>kubectl get events</code></li>
                   <li>To separate users, groups or applications use <a href="http://kubernetes.io/v1.1/docs/user-guide/namespaces.html">namespaces</a>.To list all namespaces, use: <code>kubectl get ns</code> and to see the <a href="http://kubernetes.io/v1.1/docs/admin/resourcequota/">resource quotas</a> of a namespace use <code>kubectl get quota</code>. When a pod doesn't specify its resource constraints such as CPU shares or memory requested it effectively can consume unbounded resources. You really want to specify default <a href="http://kubernetes.io/v1.1/docs/admin/limitrange/README.html">limits</a> along with the quotas. Note: while quotas work on the namespace-level for, say, entire groups of users or projects, the limits work on a per-pod level.</li>
               </ol>
           </div>
           <div style="clear:both; margin-bottom: 20px"></div>
       </div>
-      <footer class="site-footer">
-       <span class="site-footer-owner">Last update: 2015-12-21 by <a href="https://github.com/mhausenblas">mhausenblas</a>.</span>
-       <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
-      </footer>
     </section>
-  </body>
-</html>
