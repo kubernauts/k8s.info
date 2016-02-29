@@ -1,34 +1,8 @@
-<!DOCTYPE html>
-<html lang="en-us">
-  <head>
-    <meta charset="UTF-8">
-    <title>Kubernetes Recipes</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
-    <link rel="icon" href="k8s-logo.png" type="image/x-icon">
-  </head>
-  <body>
-    <section class="page-header">
-      <div style="font-weight: 200;">
-          <a style="color: #fff" href="http://kubernetes.io/v1.1/" target="_new">Docs</a> | 
-          <a style="color: #fff" href="http://stackoverflow.com/questions/tagged/kubernetes" target="_new">StackOverflow</a> | 
-          <a style="color: #fff" href="http://slack.k8s.io/" target="_new">Slack</a> | 
-          <a style="color: #fff" href="http://kubernetes.slackarchive.io/" target="_new">Slack Archive</a> | 
-          <a style="color: #fff" href="https://twitter.com/kubernetesio" target="_new">Twitter</a> | 
-          <a style="color: #fff" href="https://groups.google.com/forum/#!forum/google-containers" target="_new">Mailing List</a>
-      </div>
-      <h1 class="project-name">Kubernetes Community Resources</h1>
-      <h2 class="project-tagline">Container management from appops for appops.</h2>
-    <div class="toplevel-menu">
-        <span class="menu-item"><a href="./">home</a></span>
-        <span class="menu-item-sel">recipes</span>
-        <span class="menu-item"><a href="cs.html">cheat sheet</a></span>
-        <span class="menu-item"><a href="https://github.com/kubernauts/k8s.info" target="_new">contribute</a></span>
-    </div>
-    </section>
+---
+layout: default
+title: Kubernetes Community Resources
+hmenu: recipes
+---
     <section class="main-content">
       <h3><a id="rcp-0000" class="anchor" href="#rcp-0000" aria-hidden="true"><span class="octicon octicon-link"></span></a>Launch a single container</h3>
       <p><strong>Problem</strong>: I want to launch a container, not write a Pod or Replication Controller file.</p>
@@ -51,32 +25,26 @@
       <p><strong>Solution</strong>: Yes, by using labels. Assume you mark up your running pods with <code>status=serving</code> and when you want to debug one of the pods without impacting the service, just re-label the bad pod to <code>status=troubleshooting</code> and the RC will kick in to launch a new one, instead. Also, you have the bad pod for yourself to dissect. See also the walkthrough example <a href="https://gist.github.com/mhausenblas/b74742ad10f756e680c5">here</a> for a step-by-step instruction:</p>
       <script src="https://gist.github.com/mhausenblas/b74742ad10f756e680c5.js"></script>
       <div class="rcp-sep"></div>
-      
+
       <h3><a id="rcp-0004" class="anchor" href="#rcp-0004" aria-hidden="true"><span class="octicon octicon-link"></span></a>Multiple commands in container</h3>
       <p><strong>Problem</strong>: Can I specify multiple commands for a container in a pod?</p>
-      <p><strong>Solution</strong>: Yes, for example like so: 
+      <p><strong>Solution</strong>: Yes, for example like so:
           <pre><code>command: ["/bin/sh","-c"]
 args: ["first_command ; then_second_command && third_command_only_if_second_succeeded"]</code></pre>
       With <code>command: ["/bin/sh", "-c"]</code> above you specify a shell to execute in the container that gets the arguments listed in <code>args: [ ... ]</code> passed in.
       In the above case, the first command as well as the second would always be executed and the third command only if the second command successfully executed (that is, a return value of 0). See also these two StackOverflow posts:
-      [<a href="http://stackoverflow.com/questions/33887194/how-to-set-multiple-commands-in-one-yaml-file-with-kubernetes">1</a>], 
+      [<a href="http://stackoverflow.com/questions/33887194/how-to-set-multiple-commands-in-one-yaml-file-with-kubernetes">1</a>],
       [<a href="http://stackoverflow.com/questions/33979501/kebernetes-passing-multiple-commands-to-the-container">2</a>].
       </p>
       <div class="rcp-sep"></div>
 
       <h3><a id="rcp-0005" class="anchor" href="#rcp-0005" aria-hidden="true"><span class="octicon octicon-link"></span></a>Access pod label from within one of its         container</h3>
       <p><strong>Problem</strong>: I want to access the labels of a pod from within one of its containers.</p>
-      <p><strong>Solution</strong>: Use the <a href="http://kubernetes.io/v1.1/docs/user-guide/downward-api.html">Downward API</a> to achieve this. 
-      This API enables containers to query infos about themselves (as well as about the overall system state). For an example see this <a href="http://kubernetes.io/v1.1/docs/user-guide/downward-api/README.html">docs</a> page. 
+      <p><strong>Solution</strong>: Use the <a href="http://kubernetes.io/v1.1/docs/user-guide/downward-api.html">Downward API</a> to achieve this.
+      This API enables containers to query infos about themselves (as well as about the overall system state). For an example see this <a href="http://kubernetes.io/v1.1/docs/user-guide/downward-api/README.html">docs</a> page.
       </p>
       <div class="rcp-sep"></div>
 
       <p style="margin-top: 100px; font-size: 80%; font-weight: 200;">Have got a recipe you want to share? Please send in a <a href="https://github.com/mhausenblas/k8s.info/pulls">Pull Request</a> against the mhausenblas/k8s.info repo.</p>
-      
-      <footer class="site-footer">
-       <span class="site-footer-owner">Last update: 2015-12-21 by <a href="https://github.com/mhausenblas">mhausenblas</a>.</span>
-       <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
-      </footer>
+
     </section>
-  </body>
-</html>
